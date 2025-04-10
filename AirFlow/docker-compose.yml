@@ -2,6 +2,7 @@ version: '3'
 
 services:
   sleek-airflow:
+    user: root
     build:
       context: .
       dockerfile: Dockerfile.airflow 
@@ -9,11 +10,15 @@ services:
       - ./airflow:/opt/airflow
     ports:
       - "8080:8080"
-    command: airflow standalone
+    environment:
+      - AIRFLOW__WEBSERVER__WEB_SERVER_HOST=0.0.0.0
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["rm -f /opt/airflow/airflow-webserver.pid && exec airflow standalone"]
     networks:
       - app-network
 
   flask-api:
+    user: root
     build:
       context: .
       dockerfile: Dockerfile.flask 

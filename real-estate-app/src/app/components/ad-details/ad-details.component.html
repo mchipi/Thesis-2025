@@ -1,0 +1,14 @@
+<div class="property-details-page" *ngIf="property">
+    <h1 class="property-title">{{ property.title }}</h1>
+    <img [src]="property.image" alt="Property Image" class="property-image" />
+    <p class="property-description">{{ property.description }}</p>
+    <ul class="property-attributes">
+        <li *ngFor="let key of getKeys(property.properties)">
+            <strong class="attribute-name">{{ key }}:</strong> {{ property.properties[key] }}
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="!property">
+    <p class="loading-message">Loading property details...</p>
+</div>

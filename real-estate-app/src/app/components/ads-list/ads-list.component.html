@@ -1,0 +1,77 @@
+<!-- Ad Container -->
+<div class="ad-list-container">
+    <div class="ad-grid-wrapper">
+        <div class="ad-grid" [class.shrunk]="selectedAd">
+            <div class="ad" *ngFor="let ad of paginatedAds" (click)="selectAd(ad)">
+                <div class="favorite-indicator" *ngIf="isFavorite(ad)">
+                    ❤️
+                </div>
+                <img *ngIf="ad.Images?.length" [src]="ad.Images[0]" alt="Ad Image" class="ad-thumbnail" />
+                <div class="ad-content">
+                    <h3 class="ad-title">{{ ad.Properties['Address'] || ad.Properties['Локација:'] || 'Unknown Location' }}
+                    </h3>
+                    <p class="ad-price">{{ ad.Properties['Price'] || ad.Properties['Вид на оглас:'] || '' }}</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="pagination">
+            <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+    </div>
+      
+
+    <!-- Ad Details -->
+    <div class="ad-details" *ngIf="selectedAd">
+        <button class="close-btn" (click)="closeAdPanel()">×</button>
+        
+
+        <div class="ad-container">
+            <div class="ad-photos">
+                <!-- Image Carousel -->
+                <div class="image-slider">
+                    <button class="slider-btn left" (click)="scrollImages(-1)">&#10094;</button>
+                    <div class="image-container" #imageContainer>
+                        <img *ngFor="let img of selectedAd.Images" [src]="img" alt="Property Image" class="ad-image">
+                    </div>
+                    <button class="slider-btn right" (click)="scrollImages(1)">&#10095;</button>
+                </div>
+            </div>
+        
+            <div class="ad-title-container">
+                <div class="ad-title">Title for ad {{ selectedAd.Id }}</div>
+                <button class="favorite-btn" (click)="toggleFavorite(selectedAd)">
+                    <ng-container *ngIf="isFavorite(selectedAd); else notFav">
+                      ❤️ <!-- full heart -->
+                    </ng-container>
+                    <ng-template #notFav>🤍</ng-template> <!-- empty heart -->
+                  </button>
+            </div>
+        </div>
+    
+        
+        <!-- Description with toggle button -->
+        <p class="ad-description">
+            {{ showFullDescription ? selectedAd.Description : (selectedAd.Description | slice:0:100) + '...' }}
+        </p>
+        <button class="toggle-description-btn" (click)="toggleDescription()">
+            {{ showFullDescription ? 'Show less' : 'Show more' }}
+        </button>
+
+        <!-- Dynamic Properties -->
+        <div class="ad-properties">
+            <div class="ad-property" *ngFor="let key of propertyKeys">
+                <span class="property-key">{{ key.replace(':', '') }}:</span>
+                <span class="property-value">{{ selectedAd.Properties[key] }}</span>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="ad-contact">
+            <p><strong>Contact:</strong> {{ selectedAd.Phone || selectedAd['Phone Number'] || 'N/A' }}</p>
+            <p><strong>Seller:</strong> {{ selectedAd.User || selectedAd['User Name'] || 'N/A' }}</p>
+        </div>
+    </div>
+</div>

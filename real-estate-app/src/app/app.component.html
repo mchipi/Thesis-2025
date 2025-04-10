@@ -1,0 +1,12 @@
+<nav>
+  <div class="nav-left">
+    <div class="logo" (click)="navigateToHome()" [class.active]="isHomeRoute()">
+      REAL ESTATE SKOPJE
+    </div>
+    <div class="favorites" (click)="navigateToFavorites()" [class.active]="isFavoritesRoute()">
+      FAVORITES
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

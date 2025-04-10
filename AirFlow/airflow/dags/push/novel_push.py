@@ -13,16 +13,7 @@ def push_novel(**kwargs):
 
     data_to_send = df.to_dict(orient='records')
    
-    try:
-        response = requests.post(api_url, json=data_to_send)
-       
-        if response.status_code == 201:
-            print("Successfully sent all property data.")
-        else:
-            print(f"Failed to send data. Status Code: {response.status_code}, Response: {response.text}")
-            
-    except Exception as e:
-        print(f"Error occurred while sending data: {e}")
+    print("Novel - fake push")
 
 
 
