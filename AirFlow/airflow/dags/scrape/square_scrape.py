@@ -25,7 +25,7 @@ def scrape_square(**kwargs):
 
         i += 1
         # REMOVE BREAK TO SCRAPE ALL PAGES
-        if i == 1:
+        if i == 2:
             break
 
     kwargs['ti'].xcom_push(key='scraped_data', value=data)

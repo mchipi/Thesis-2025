@@ -13,6 +13,7 @@
   gap: 15px;
   width: 100%;
   transition: width 0.3s;
+  padding-bottom: 40px; /* Add this */
 }
 
 .ad-grid.shrunk {
@@ -24,7 +25,7 @@
 .ad {
   background: white;
   border-radius: 8px;
-  padding: 10px;
+  padding: 5px; /* Reduce padding around the card */
   cursor: pointer;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
@@ -41,6 +42,7 @@
   height: 150px;
   object-fit: cover;
   border-radius: 6px;
+  margin: 0; /* Remove margin */
 }
 
 .ad-content {
@@ -75,12 +77,13 @@
 
 /* Ad Details Panel */
 .ad-details {
-  width: 40%; /* Increased from 30% to 40% */
+  width: 40%;
   background-color: #fff;
   position: fixed;
-  top: 0;
+  top: 60px; /* height of the navbar */
   right: 0;
-  height: 100vh;
+  bottom: 0;
+  height: auto; /* let it grow to fit space */
   padding: 30px;
   border-left: 2px solid #eee;
   box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
@@ -91,6 +94,8 @@
   transition: width 0.3s ease;
   z-index: 1000;
 }
+
+
 
 /* Image Slider */
 .image-slider {
@@ -186,7 +191,7 @@
 /* Buttons */
 .close-btn {
   position: absolute;
-  top: 15px;
+  top: 10px;
   right: 15px;
   background: #ff4d4d; /* Red color for visibility */
   color: white;
@@ -259,7 +264,9 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  padding-bottom: 40px; /* Add this */
 }
+
 
 
 .pagination {

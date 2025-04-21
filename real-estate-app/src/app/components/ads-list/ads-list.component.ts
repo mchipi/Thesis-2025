@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AdsService } from 'src/app/services/ads.service';
 import { FavoritesService } from 'src/app/services/favorites.service';
+import { PaginationService } from 'src/app/services/pagination.service';
 
 @Component({
   selector: 'app-ads-list',
@@ -16,24 +18,50 @@ export class AdsListComponent {
 
   constructor(
     private adsService: AdsService,
-    private favoritesService: FavoritesService
+    private favoritesService: FavoritesService,
+    public paginationService: PaginationService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
-    this.getAds();
+    if (this.router.url === '/favorites'){
+      this.getFavoriteAds();
+      return;
+    }
+
+    this.paginationService.pageChange.subscribe((page: number) => {
+      this.getPaginatedAds(page, this.paginationService.adsPerPage);
+    });
+  
+    // Initial load
+    this.getPaginatedAds(this.paginationService.currentPage, this.paginationService.adsPerPage);
   }
 
-  getAds() {
-    this.adsService.getProperties().subscribe(
+  getFavoriteAds() {
+    this.adsService.getAds().subscribe(
       (data) => {
-        this.ads = data;
-        console.log('Ads:', this.ads);
+        this.ads = data.filter((ad: any) => {
+          const favorites = JSON.parse(localStorage.getItem('favoriteAdIds') || '[]');
+          return favorites.includes(ad.Id);
+        });
       },
       (error) => {
         console.error('Error fetching ads:', error);
       }
     )
   }
+
+  getPaginatedAds(page: number, perPage: number) {
+    this.adsService.getPaginatedAds(page, perPage).subscribe(
+      (response) => {
+        this.ads = response.ads;
+        this.paginationService.totalAds = response.total;
+      },
+      (error) => {
+        console.error('Error fetching ads:', error);
+      }
+    )
+  }  
 
   selectAd(ad: any) {
     this.selectedAd = ad;
@@ -82,28 +110,6 @@ export class AdsListComponent {
     return favorites.includes(adId);
   }
 
-  currentPage: number = 1;
-  adsPerPage: number = 12;
 
-  get paginatedAds(): any[] {
-    const startIndex = (this.currentPage - 1) * this.adsPerPage;
-    return this.ads.slice(startIndex, startIndex + this.adsPerPage);
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.ads.length / this.adsPerPage);
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-  
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
 
 }

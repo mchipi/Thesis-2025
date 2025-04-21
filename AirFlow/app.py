@@ -71,6 +71,21 @@ def get_properties():
 
     return jsonify(property_list), 200
 
+@app.route('/api/property/mock_paginated', methods=['GET'])
+def get_mock_properties_pag():
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 10))
+    
+    start = (page - 1) * per_page
+    end = start + per_page
+
+    paginated_ads = mock_ads[start:end]
+
+    return jsonify({
+        "ads": paginated_ads,
+        "total": len(mock_ads)
+    }), 200
+
 @app.route('/api/property/mock', methods=['GET'])
 def get_mock_properties():
     return mock_ads, 200

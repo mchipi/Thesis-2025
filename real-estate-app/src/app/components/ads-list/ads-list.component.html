@@ -2,7 +2,7 @@
 <div class="ad-list-container">
     <div class="ad-grid-wrapper">
         <div class="ad-grid" [class.shrunk]="selectedAd">
-            <div class="ad" *ngFor="let ad of paginatedAds" (click)="selectAd(ad)">
+            <div class="ad" *ngFor="let ad of ads" (click)="selectAd(ad)">
                 <div class="favorite-indicator" *ngIf="isFavorite(ad)">
                     ❤️
                 </div>
@@ -15,11 +15,6 @@
             </div>
         </div>
     
-        <div class="pagination">
-            <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-            <span>Page {{ currentPage }} of {{ totalPages }}</span>
-            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-        </div>
     </div>
       
 

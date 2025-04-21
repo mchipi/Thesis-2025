@@ -7,6 +7,18 @@
       FAVORITES
     </div>
   </div>
+
+  <div class="nav-right" *ngIf="showPagination">
+    <button class="pagination-btn" (click)="prevPage()" [disabled]="currentPage === 1">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </button>
+  </div>
+  
+  
 </nav>
 
 <router-outlet></router-outlet>
